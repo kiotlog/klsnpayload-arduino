@@ -1,4 +1,4 @@
-# KiotlogSN for Arduino
+# KiotlogSN Payload format for Arduino
 
 This library implements KiotlogSN Payload form for Arduino based IoT devices.
 
