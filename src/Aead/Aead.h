@@ -17,12 +17,11 @@
  * along with KiotlogSN for Arduino.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef KiotlogAead_h
-#define KiotlogAead_h
+#ifndef KiotlogSN_Payload_Aead_h
+#define KiotlogSN_Payload_Aead_h
 
 #include <Arduino.h>
 
-// #include "CryptoMini/ChaChaPoly.h"
 #include <Crypto.h>
 #include <ChaChaPoly.h>
 
@@ -30,27 +29,23 @@
 #define NONCE_SIZE 12
 #define TAG_SIZE 16
 
-// template <size_t Len>
 class Aead {
+    public:
+        Aead() = default;
+        Aead(const uint8_t * key);
 
-public:
-    Aead() = default;
-    Aead(const uint8_t * key);
+        void begin(const uint8_t pin = A0);
+        void setKey(const uint8_t *key);
+        void authEncrypt(const uint8_t * msg, const size_t msg_len, uint8_t* cipher, uint8_t* nonce);
 
-    void begin(const uint8_t pin = A0);
-    void setKey(const uint8_t *key);
-    void authEncrypt(const uint8_t * msg, const size_t msg_len, uint8_t* cipher, uint8_t* nonce);
+    protected:
+        ChaChaPoly _chachapoly;
 
-protected:
-    ChaChaPoly _chachapoly;
+        const uint8_t * _key;
+        uint8_t _tag[TAG_SIZE];
+        uint8_t _nonce[NONCE_SIZE];
 
-    const uint8_t * _key;
-    uint8_t _tag[TAG_SIZE];
-    uint8_t _nonce[NONCE_SIZE];
-
-    void increment_iv();
+        void increment_iv();
 };
-
-// #include "Aead.hpp"
 
 #endif
