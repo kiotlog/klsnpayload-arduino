@@ -22,7 +22,9 @@
 
 #include <Arduino.h>
 
-#include "CryptoMini/ChaChaPoly.h"
+// #include "CryptoMini/ChaChaPoly.h"
+#include <Crypto.h>
+#include <ChaChaPoly.h>
 
 #define KEY_SIZE 32
 #define NONCE_SIZE 12

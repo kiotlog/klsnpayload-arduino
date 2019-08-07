@@ -7,5 +7,4 @@ KiotlogSN Payload format is used to transimit secure, authenticated, bandwidth-r
 ## Library Requirements
 
 * [arduino_msgpack](https://github.com/HEADS-project/arduino_msgpack)
-
-KiotlogSN Payload for Arduino uses parts of Arduino Libs' [Crypto](http://rweather.github.io/arduinolibs/crypto.html) library.
+* [Crypto](http://rweather.github.io/arduinolibs/crypto.html)
