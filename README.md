@@ -2,7 +2,7 @@
 
 This library implements KiotlogSN Payload form for Arduino based IoT devices.
 
-KiotlogSN Payload format is used to transimit secure, authenticated, bandwidth-restricted data over Cellular/IoT netowrks to a [Kiotlog](https://github.com/kiotlog/kiotlog)-based IoT platform.
+KiotlogSN Payload format is used to transimit secure, authenticated, bandwidth-restricted data over Cellular/IoT networks to a [Kiotlog](https://github.com/kiotlog/kiotlog)-based IoT platform.
 
 ## Library Requirements
 
