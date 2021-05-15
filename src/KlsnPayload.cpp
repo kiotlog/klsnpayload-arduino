@@ -24,10 +24,11 @@ KlsnPayload::KlsnPayload()
 {
 }
 
-void KlsnPayload::begin(const uint8_t * key)
+void KlsnPayload::begin(const uint8_t * key, size_t nonce_size)
 {
     _aead.begin();
     _aead.setKey(key);
+    _aead.setNonceSize(nonce_size);
 }
 
 // void KlsnPayload::authEncrypt(const uint8_t* data, const size_t data_len, uint8_t* cipher, size_t* cipher_len, uint8_t* nonce, size_t* nonce_len)
@@ -60,12 +61,17 @@ void KlsnPayload::create(const uint8_t* data, const size_t data_len, uint8_t* pa
 {
     const uint8_t* s = _stream;
 
+    size_t nonce_size = _aead.nonceSize();
+
+    Serial.print("nonce_size: ");
+    Serial.println(nonce_size);
+
     size_t cipher_len = data_len + TAG_SIZE;
-    uint8_t cipher[cipher_len], nonce[NONCE_SIZE];
+    uint8_t cipher[cipher_len], nonce[nonce_size];
 
     _aead.authEncrypt(data, data_len, cipher, nonce);
 
-    size_t len = create_packet(cipher, cipher_len, nonce, NONCE_SIZE);
+    size_t len = create_packet(cipher, cipher_len, nonce, nonce_size);
     memcpy(payload, s, len);
     *payload_len = len;
 }
@@ -73,13 +79,17 @@ void KlsnPayload::create(const uint8_t* data, const size_t data_len, uint8_t* pa
 void KlsnPayload::create(const uint8_t* data, size_t data_len, const uint32_t timestamp, uint8_t* payload, size_t* payload_len)
 {
     const uint8_t* s = _stream;
+    size_t nonce_size = _aead.nonceSize();
+
+    Serial.print("nonce_size: ");
+    Serial.println(nonce_size);
 
     size_t cipher_len = data_len + TAG_SIZE;
-    uint8_t cipher[cipher_len], nonce[NONCE_SIZE];
+    uint8_t cipher[cipher_len], nonce[nonce_size];
 
     _aead.authEncrypt(data, data_len, cipher, nonce);
 
-    size_t len = create_packet(cipher, cipher_len, nonce, NONCE_SIZE, (const uint8_t *)&timestamp, sizeof(timestamp));
+    size_t len = create_packet(cipher, cipher_len, nonce, nonce_size, (const uint8_t *)&timestamp, sizeof(timestamp));
     memcpy(payload, s, len);
     *payload_len = len;
 }

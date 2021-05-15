@@ -29,7 +29,7 @@ void Aead::begin(const uint8_t noise_pin)
 {
     pinMode(noise_pin, INPUT);
     randomSeed(analogRead(noise_pin));
-    for (int i = 0; i < NONCE_SIZE; i++)
+    for (int i = 0; i < _nonce_size; i++)
     {
         _nonce[i] = (uint8_t)random(256);
     }
@@ -48,7 +48,7 @@ void Aead::increment_iv()
     size_t i = 0U;
     uint_fast16_t c = 1U;
 
-    for (; i < NONCE_SIZE; i++)
+    for (; i < _nonce_size; i++)
     {
         c += (uint_fast16_t)_nonce[i];
         _nonce[i] = (unsigned char)c;
@@ -58,12 +58,12 @@ void Aead::increment_iv()
 
 void Aead::authEncrypt(const uint8_t *msg, const size_t msg_len, uint8_t* cipher, uint8_t* nonce)
 {
-    _chachapoly.setIV(_nonce, NONCE_SIZE);
+    _chachapoly.setIV(_nonce, _nonce_size);
     _chachapoly.encrypt(cipher, msg, msg_len);
     _chachapoly.computeTag(_tag, TAG_SIZE);
 
     memcpy(cipher + msg_len, _tag, TAG_SIZE);
-    memcpy(nonce, _nonce, NONCE_SIZE);
+    memcpy(nonce, _nonce, _nonce_size);
 
     increment_iv();
 }

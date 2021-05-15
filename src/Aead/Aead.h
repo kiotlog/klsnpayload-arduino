@@ -26,7 +26,7 @@
 #include <ChaChaPoly.h>
 
 #define KEY_SIZE 32
-#define NONCE_SIZE 12
+#define MAX_NONCE_SIZE 12
 #define TAG_SIZE 16
 
 class Aead {
@@ -37,13 +37,16 @@ class Aead {
         void begin(const uint8_t pin = A0);
         void setKey(const uint8_t *key);
         void authEncrypt(const uint8_t * msg, const size_t msg_len, uint8_t* cipher, uint8_t* nonce);
+        void setNonceSize(size_t nonce_size) { _nonce_size = nonce_size; }
+        size_t nonceSize() { return _nonce_size; }
 
     protected:
         ChaChaPoly _chachapoly;
 
         const uint8_t * _key;
         uint8_t _tag[TAG_SIZE];
-        uint8_t _nonce[NONCE_SIZE];
+        size_t _nonce_size = MAX_NONCE_SIZE;
+        uint8_t _nonce[MAX_NONCE_SIZE];
 
         void increment_iv();
 };

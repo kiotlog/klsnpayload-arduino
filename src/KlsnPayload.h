@@ -30,7 +30,7 @@ class KlsnPayload
 {
     public:
         KlsnPayload();
-        void begin(const uint8_t* key);
+        void begin(const uint8_t* key, const size_t nonce_size = 12);
         void pack(const uint8_t* cipher, const size_t cipher_len, const uint8_t* nonce, const size_t nonce_len,                                                       uint8_t* payload, size_t* payload_len);
         void pack(const uint8_t* cipher, const size_t cipher_len, const uint8_t* nonce, const size_t nonce_len, const uint8_t* timestamp, const size_t timestamp_len, uint8_t* payload, size_t* payload_len);
         void create(const uint8_t* data, const size_t data_len,                           uint8_t* payload, size_t* payload_len);
